@@ -2,6 +2,9 @@ export type ProductCategorySlug =
   | 'fresh-vegetables'
   | 'agro-products'
   | 'millets'
+  | 'spices'
+  | 'dry-fruits'
+  | 'nuts'
   | 'organic-products';
 
 export interface ProductItem {

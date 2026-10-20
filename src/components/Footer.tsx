@@ -23,8 +23,8 @@ export function Footer() {
           <div className="lg:col-span-4">
             <Logo variant="light" />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-brand-200">
-              India-based exporter of fresh vegetables, agro products, millets, and organic produce —
-              connecting international buyers with quality Indian agriculture.
+              India-based exporter of fresh vegetables, agro products, millets, spices, dry fruits,
+              nuts and organic produce — connecting international buyers with quality Indian agriculture.
             </p>
             <ul className="mt-6 space-y-3 text-sm">
               <li className="flex items-start gap-3">

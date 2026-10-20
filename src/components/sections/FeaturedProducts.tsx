@@ -2,7 +2,7 @@ import { PRODUCT_CATEGORIES } from '@/data/site';
 import { ProductCard } from '@/components/ProductCard';
 import type { ProductItem } from '@/types';
 
-const FEATURED_SLUGS = ['potato', 'wheat', 'bajra', 'jowar', 'mustard', 'paddy-rice'];
+const FEATURED_SLUGS = ['potato', 'wheat', 'bajra', 'jowar', 'mustard', 'paddy-rice', 'turmeric', 'cashew-nuts', 'raisins', 'green-chilli', 'chickpeas', 'cardamom'];
 
 function findFeatured(): { item: ProductItem; categoryName: string }[] {
   const found: { item: ProductItem; categoryName: string }[] = [];
@@ -36,7 +36,7 @@ export function FeaturedProducts() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {featured.map(({ item, categoryName }, i) => (
             <ProductCard
               key={item.id}

@@ -132,8 +132,8 @@ function MegaMenuLink({
 
       {open && (
         <div className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3">
-          <div className="w-[min(56rem,92vw)] overflow-hidden rounded-2xl border border-charcoal-100 bg-white shadow-card-hover animate-fade-in">
-            <div className="grid grid-cols-2 gap-x-8 gap-y-6 p-7 lg:grid-cols-4">
+          <div className="w-[min(72rem,94vw)] overflow-y-auto max-h-[80vh] rounded-2xl border border-charcoal-100 bg-white shadow-card-hover animate-fade-in">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-6 p-7 lg:grid-cols-4 xl:grid-cols-4">
               {PRODUCT_CATEGORIES.map((cat) => (
                 <div key={cat.slug} className="min-w-0">
                   <Link

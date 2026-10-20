@@ -163,8 +163,9 @@ export function SuppliersPage() {
               <h2 className="section-title mt-4">Products We Source</h2>
               <p className="mt-4 text-lg leading-relaxed text-charcoal-600">
                 We source across the following agricultural product categories, including
-                products such as Potato, Wheat, Mustard, Bajra, Jowar, Paddy/Rice and other
-                agricultural products.
+                products such as Potato, Wheat, Mustard, Bajra, Jowar, Paddy/Rice, Turmeric,
+                Cashew Nuts, Raisins and other agricultural products across Fresh Vegetables,
+                Agro Products, Millets, Spices, Dry Fruits, Nuts and Organic categories.
               </p>
             </div>
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
