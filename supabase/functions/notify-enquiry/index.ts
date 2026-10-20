@@ -83,8 +83,10 @@ Deno.serve(async (req: Request) => {
 
     const resendApiKey = Deno.env.get('RESEND_API_KEY');
     const adminEmail = Deno.env.get('ADMIN_NOTIFY_EMAIL');
+    const emailFromAddress = Deno.env.get('EMAIL_FROM_ADDRESS');
+    const appUrl = Deno.env.get('APP_URL') || supabaseUrl;
 
-    if (!resendApiKey || !adminEmail) {
+    if (!resendApiKey || !adminEmail || !emailFromAddress) {
       await supabase.from('enquiries').update({ email_status: 'not_configured' }).eq('id', enquiryId);
 
       return new Response(
@@ -99,8 +101,7 @@ Deno.serve(async (req: Request) => {
       timeStyle: 'short',
     });
 
-    const siteUrl = Deno.env.get('SITE_URL') || supabaseUrl;
-    const adminLink = `${siteUrl}/admin/enquiries/${enquiry.id}`;
+    const adminLink = `${appUrl}/admin/enquiries/${enquiry.id}`;
     const subject = `New RFQ: ${enquiry.product} — ${enquiry.full_name}`;
     const emailBody = buildEmailBody(enquiry, submissionDate, adminLink);
 
@@ -111,7 +112,7 @@ Deno.serve(async (req: Request) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Setu Trade RFQ <noreply@resend.dev>',
+        from: `Setu Trade RFQ <${emailFromAddress}>`,
         to: [adminEmail],
         subject,
         text: emailBody,
