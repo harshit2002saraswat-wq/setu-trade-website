@@ -33,8 +33,25 @@ export function HomePage() {
   useSeo({
     title: 'Setu Trade — Indian Agro Products & Global Trade',
     description:
-      'Setu Trade connects international buyers with Indian agricultural products including fresh vegetables, agro products, millets, and organic produce.',
+      'Setu Trade connects international buyers with Indian agricultural products including fresh vegetables, agro products, millets, spices, dry fruits, nuts and organic produce.',
     canonicalPath: '/',
+    jsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Setu Trade',
+        url: 'https://setutrade.com',
+        description:
+          'India-based exporter connecting international buyers with Indian agricultural products including fresh vegetables, agro products, millets, spices, dry fruits, nuts and organic produce.',
+        areaServed: 'Global',
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Setu Trade',
+        url: 'https://setutrade.com',
+      },
+    ],
   });
   return (
     <>

@@ -20,13 +20,41 @@ export function ProductDetailPage() {
 }
 
 function ProductDetailContent({ product }: { product: ProductDetail }) {
-  useSeo({ title: product.seoTitle, description: product.seoDescription, canonicalPath: `/products/${product.slug}` });
+  const related = getRelatedProducts(product.relatedProductSlugs);
+
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: `Indian ${product.name}`,
+      description: product.description,
+      category: product.category,
+      url: `https://setutrade.com/products/${product.slug}`,
+      image: [product.image],
+      brand: { '@type': 'Brand', name: 'Setu Trade' },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://setutrade.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Products', item: 'https://setutrade.com/products' },
+        { '@type': 'ListItem', position: 3, name: product.category, item: `https://setutrade.com/products?category=${product.categorySlug}` },
+        { '@type': 'ListItem', position: 4, name: product.name, item: `https://setutrade.com/products/${product.slug}` },
+      ],
+    },
+  ];
+
+  useSeo({
+    title: product.seoTitle,
+    description: product.seoDescription,
+    canonicalPath: `/products/${product.slug}`,
+    jsonLd,
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [product.slug]);
-
-  const related = getRelatedProducts(product.relatedProductSlugs);
 
   const overviewFields = [
     { label: 'Product', value: product.name },

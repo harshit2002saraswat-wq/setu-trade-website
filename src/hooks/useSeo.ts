@@ -4,6 +4,8 @@ interface SeoProps {
   title: string;
   description: string;
   canonicalPath?: string;
+  /** Optional JSON-LD structured data objects to inject as <script type="application/ld+json"> */
+  jsonLd?: object[];
 }
 
 const SITE_URL = 'https://setutrade.com';
@@ -30,7 +32,25 @@ function upsertLink(rel: string, href: string) {
   el.setAttribute('href', href);
 }
 
-export function useSeo({ title, description, canonicalPath }: SeoProps) {
+const JSON_LD_ID = 'seo-jsonld';
+
+function upsertJsonLd(data: object[]) {
+  let el = document.head.querySelector<HTMLScriptElement>(`script#${JSON_LD_ID}`);
+  if (!el) {
+    el = document.createElement('script');
+    el.id = JSON_LD_ID;
+    el.setAttribute('type', 'application/ld+json');
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify(data);
+}
+
+function clearJsonLd() {
+  const el = document.head.querySelector<HTMLScriptElement>(`script#${JSON_LD_ID}`);
+  if (el) el.textContent = '';
+}
+
+export function useSeo({ title, description, canonicalPath, jsonLd }: SeoProps) {
   useEffect(() => {
     document.title = title;
 
@@ -46,5 +66,13 @@ export function useSeo({ title, description, canonicalPath }: SeoProps) {
     const canonical = canonicalPath ? `${SITE_URL}${canonicalPath}` : SITE_URL;
     upsertLink('canonical', canonical);
     upsertMeta('property', 'og:url', canonical);
-  }, [title, description, canonicalPath]);
+
+    if (jsonLd && jsonLd.length > 0) {
+      upsertJsonLd(jsonLd);
+    } else {
+      clearJsonLd();
+    }
+  }, [title, description, canonicalPath, jsonLd]);
 }
+
+export { SITE_URL };
