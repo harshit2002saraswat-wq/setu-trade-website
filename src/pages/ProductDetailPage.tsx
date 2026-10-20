@@ -84,7 +84,7 @@ function ProductDetailContent({ product }: { product: ProductDetail }) {
                   {product.description}
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Link to="/#request-quote" className="btn-primary text-base">
+                  <Link to={`/request-quote?product=${product.slug}`} className="btn-primary text-base">
                     Request a Quote
                     <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -280,7 +280,7 @@ function ProductDetailContent({ product }: { product: ProductDetail }) {
                 your requirement and discuss the applicable commercial terms.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Link to="/#request-quote" className="btn-primary text-base">
+                <Link to={`/request-quote?product=${product.slug}`} className="btn-primary text-base">
                   Request a Quote
                   <ArrowRight className="h-4 w-4" />
                 </Link>

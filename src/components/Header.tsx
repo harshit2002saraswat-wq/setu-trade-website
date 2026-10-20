@@ -83,14 +83,13 @@ export function Header() {
         </nav>
 
         <div className="hidden xl:block">
-          <button
-            type="button"
-            onClick={() => goHome('#request-quote')}
+          <Link
+            to="/request-quote"
             className="btn-primary text-sm"
           >
             Request a Quote
             <ArrowRight className="h-4 w-4" />
-          </button>
+          </Link>
         </div>
 
         <button
@@ -167,14 +166,13 @@ function MegaMenuLink({
               <p className="text-sm text-charcoal-600">
                 Looking for a specific product or grade?
               </p>
-              <button
-                type="button"
-                onClick={() => onNavigate('#request-quote')}
+              <Link
+                to="/request-quote"
                 className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900"
               >
                 Request a Quote
                 <ArrowRight className="h-3.5 w-3.5" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -284,14 +282,14 @@ function MobileMenu({
           </ul>
 
           <div className="mt-5">
-            <button
-              type="button"
-              onClick={() => onNavigate('#request-quote')}
+            <Link
+              to="/request-quote"
+              onClick={onClose}
               className="btn-primary w-full text-base"
             >
               Request a Quote
               <ArrowRight className="h-4 w-4" />
-            </button>
+            </Link>
           </div>
         </nav>
       </div>

@@ -44,7 +44,7 @@ export function ProductCard({ item, categoryName, index }: ProductCardProps) {
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
           <Link
-            to="/#request-quote"
+            to={`/request-quote?product=${item.routeSlug}`}
             className="btn-primary px-4 py-2.5 text-sm"
             aria-label={`Request a quote for ${item.name}`}
           >

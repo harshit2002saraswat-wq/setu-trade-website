@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowRight, FileText, Handshake } from 'lucide-react';
 
 export function CallToAction() {
@@ -13,18 +13,6 @@ export function CallToAction() {
 }
 
 function BuyerCTA() {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const scrollTo = (hash: string) => {
-    if (location.pathname !== '/') {
-      navigate(`/${hash}`);
-    } else {
-      const el = document.getElementById(hash.replace('#', ''));
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <div
       id="request-quote"
@@ -44,10 +32,10 @@ function BuyerCTA() {
         </p>
       </div>
       <div className="mt-7 flex w-full flex-col gap-3 sm:flex-row lg:mt-0 lg:w-auto lg:flex-col lg:items-end">
-        <button type="button" onClick={() => scrollTo('#request-quote')} className="btn-primary text-base">
+        <Link to="/request-quote" className="btn-primary text-base">
           Request a Quote
           <ArrowRight className="h-4 w-4" />
-        </button>
+        </Link>
         <Link to="/contact" className="btn-secondary text-base">
           Contact Us
         </Link>
