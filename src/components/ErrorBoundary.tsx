@@ -85,6 +85,3 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBound
     return this.props.children;
   }
 }
-
-
-export { ErrorBoundary }
