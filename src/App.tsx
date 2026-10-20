@@ -8,6 +8,8 @@ import { AboutPage } from '@/pages/AboutPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { SuppliersPage } from '@/pages/SuppliersPage';
 import { RequestQuotePage } from '@/pages/RequestQuotePage';
+import { BlogListPage } from '@/pages/BlogListPage';
+import { BlogDetailPage } from '@/pages/BlogDetailPage';
 import { AdminLoginPage } from '@/pages/admin/AdminLoginPage';
 import { AdminDashboardPage } from '@/pages/admin/AdminDashboardPage';
 import { AdminEnquiryDetailPage } from '@/pages/admin/AdminEnquiryDetailPage';
@@ -27,6 +29,8 @@ function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/suppliers" element={<SuppliersPage />} />
               <Route path="/request-quote" element={<RequestQuotePage />} />
+              <Route path="/blog" element={<BlogListPage />} />
+              <Route path="/blog/:slug" element={<BlogDetailPage />} />
               <Route path="/admin/login" element={<AdminLoginPage />} />
               <Route path="/admin" element={<AdminDashboardPage />} />
               <Route path="/admin/enquiries/:id" element={<AdminEnquiryDetailPage />} />

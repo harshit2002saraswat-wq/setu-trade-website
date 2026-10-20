@@ -110,4 +110,19 @@
   <url><loc>https://setutrade.com/products/organic-spices</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://setutrade.com/products/organic-oilseeds</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://setutrade.com/products/other-organic-products</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url>
+    <loc>https://setutrade.com/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url><loc>https://setutrade.com/blog/how-indian-agricultural-products-reach-global-markets</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://setutrade.com/blog/potato-export-from-india-buyer-requirements</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://setutrade.com/blog/indian-millets-bajra-jowar-ragi-for-global-buyers</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://setutrade.com/blog/indian-spices-for-international-buyers</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://setutrade.com/blog/how-to-source-fresh-vegetables-from-india</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://setutrade.com/blog/understanding-agro-product-export-documentation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://setutrade.com/blog/what-international-buyers-should-check-before-ordering</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://setutrade.com/blog/organic-agricultural-products-from-india</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://setutrade.com/blog/packaging-considerations-for-agricultural-exports</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://setutrade.com/blog/india-agro-trade-from-farm-sourcing-to-international-delivery</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

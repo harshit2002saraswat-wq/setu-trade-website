@@ -430,6 +430,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Home', href: '#home' },
   { label: 'Products', href: '#products', hasMegaMenu: true },
   { label: 'About', href: '#about', route: '/about' },
+  { label: 'Insights', href: '#blog', route: '/blog' },
   { label: 'Contact', href: '#contact', route: '/contact' },
   { label: 'Suppliers', href: '#become-supplier', route: '/suppliers' },
 ];
