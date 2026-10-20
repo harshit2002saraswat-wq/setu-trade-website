@@ -59,7 +59,6 @@ export function Header() {
                 open={megaOpen}
                 onEnter={() => setMegaOpen(true)}
                 onLeave={() => setMegaOpen(false)}
-                onNavigate={goHome}
               />
             ) : link.route ? (
               <Link
@@ -113,13 +112,11 @@ function MegaMenuLink({
   open,
   onEnter,
   onLeave,
-  onNavigate,
 }: {
   link: NavLink;
   open: boolean;
   onEnter: () => void;
   onLeave: () => void;
-  onNavigate: (hash: string) => void;
 }) {
   return (
     <div className="relative" onMouseEnter={onEnter} onMouseLeave={onLeave}>
