@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Admin area - no need to index
+Disallow: /admin
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://setutrade.com/sitemap.xml

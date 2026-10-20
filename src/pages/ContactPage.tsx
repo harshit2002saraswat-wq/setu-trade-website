@@ -36,6 +36,7 @@ export function ContactPage() {
     title: 'Contact Setu Trade | Indian Agro Products',
     description:
       'For product enquiries, sourcing requirements and business discussions, contact Setu Trade.',
+    canonicalPath: '/contact',
   });
 
   return (

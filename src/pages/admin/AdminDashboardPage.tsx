@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import {
   Inbox,
   Clock,
@@ -146,8 +146,7 @@ export function AdminDashboardPage() {
   }
 
   if (!session) {
-    window.location.href = '/admin/login';
-    return null;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return (

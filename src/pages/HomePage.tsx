@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Header } from '@/components/Header';
+import { useSeo } from '@/hooks/useSeo';
 import { Footer } from '@/components/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { ProductCategories } from '@/components/sections/ProductCategories';
@@ -29,6 +30,12 @@ function useScrollToHash() {
 
 export function HomePage() {
   useScrollToHash();
+  useSeo({
+    title: 'Setu Trade — Indian Agro Products & Global Trade',
+    description:
+      'Setu Trade connects international buyers with Indian agricultural products including fresh vegetables, agro products, millets, and organic produce.',
+    canonicalPath: '/',
+  });
   return (
     <>
       <Header />

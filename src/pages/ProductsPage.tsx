@@ -44,6 +44,7 @@ export function ProductsPage() {
     title: 'Explore Our Products | Setu Trade',
     description:
       'Explore agricultural products sourced from India for international buyers and business requirements.',
+    canonicalPath: '/products',
   });
 
   const [searchParams, setSearchParams] = useSearchParams();

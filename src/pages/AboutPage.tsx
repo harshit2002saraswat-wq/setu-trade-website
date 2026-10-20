@@ -51,6 +51,7 @@ export function AboutPage() {
     title: 'About Setu Trade | Indian Agro Products & Global Trade',
     description:
       'Setu Trade is an India-based agro-products trading business focused on connecting agricultural products sourced from India with international buyers.',
+    canonicalPath: '/about',
   });
 
   return (

@@ -1,15 +1,16 @@
-import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { useSeo } from '@/hooks/useSeo';
 
 export function NotFoundPage() {
   const { pathname } = useLocation();
 
-  useEffect(() => {
-    document.title = 'Page Not Found | Setu Trade';
-  }, []);
+  useSeo({
+    title: 'Page Not Found | Setu Trade',
+    description: 'The page you are looking for could not be found.',
+  });
 
   return (
     <>

@@ -20,7 +20,7 @@ export function ProductDetailPage() {
 }
 
 function ProductDetailContent({ product }: { product: ProductDetail }) {
-  useSeo({ title: product.seoTitle, description: product.seoDescription });
+  useSeo({ title: product.seoTitle, description: product.seoDescription, canonicalPath: `/products/${product.slug}` });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -389,9 +389,10 @@ function InfoCard({
 }
 
 function ProductNotFound() {
-  useEffect(() => {
-    document.title = 'Product Not Found | Setu Trade';
-  }, []);
+  useSeo({
+    title: 'Product Not Found | Setu Trade',
+    description: 'The product you are looking for may not be available or the link may be incorrect.',
+  });
 
   return (
     <>

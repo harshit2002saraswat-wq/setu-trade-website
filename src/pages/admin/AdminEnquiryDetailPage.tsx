@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
   Loader2,
@@ -102,8 +102,7 @@ export function AdminEnquiryDetailPage() {
   }
 
   if (!session) {
-    window.location.href = '/admin/login';
-    return null;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return (
