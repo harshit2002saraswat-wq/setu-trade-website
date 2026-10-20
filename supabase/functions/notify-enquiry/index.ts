@@ -12,11 +12,20 @@ interface EnquiryRow {
   full_name: string;
   company: string | null;
   country: string;
+  city: string | null;
   email: string;
+  phone: string | null;
+  buyer_type: string | null;
   product: string;
+  product_slug: string | null;
+  variety_grade: string | null;
   quantity: number;
   unit: string;
+  packaging: string | null;
   destination: string;
+  delivery_date: string | null;
+  specifications: string | null;
+  message: string | null;
   incoterm: string | null;
   payment_terms: string | null;
 }
@@ -47,10 +56,10 @@ Deno.serve(async (req: Request) => {
     const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
     if (!supabaseUrl || !serviceRoleKey) {
-      return new Response(JSON.stringify({ status: 'not_configured', message: 'Missing server configuration' }), {
-        status: 200,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({ status: 'not_configured', message: 'Missing server configuration' }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
     }
 
     const supabase = createClient(supabaseUrl, serviceRoleKey, {
@@ -59,7 +68,9 @@ Deno.serve(async (req: Request) => {
 
     const { data: enquiry, error: fetchError } = await supabase
       .from('enquiries')
-      .select('id, created_at, full_name, company, country, email, product, quantity, unit, destination, incoterm, payment_terms')
+      .select(
+        'id, created_at, full_name, company, country, city, email, phone, buyer_type, product, product_slug, variety_grade, quantity, unit, packaging, destination, delivery_date, specifications, message, incoterm, payment_terms',
+      )
       .eq('id', enquiryId)
       .single<EnquiryRow>();
 
@@ -74,15 +85,12 @@ Deno.serve(async (req: Request) => {
     const adminEmail = Deno.env.get('ADMIN_NOTIFY_EMAIL');
 
     if (!resendApiKey || !adminEmail) {
-      await supabase
-        .from('enquiries')
-        .update({ email_status: 'not_configured' })
-        .eq('id', enquiryId);
+      await supabase.from('enquiries').update({ email_status: 'not_configured' }).eq('id', enquiryId);
 
-      return new Response(JSON.stringify({ status: 'not_configured', message: 'Email notification is not configured' }), {
-        status: 200,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({ status: 'not_configured', message: 'Email notification is not configured' }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
     }
 
     const submissionDate = new Date(enquiry.created_at).toLocaleString('en-US', {
@@ -91,7 +99,8 @@ Deno.serve(async (req: Request) => {
       timeStyle: 'short',
     });
 
-    const adminLink = `${supabaseUrl}/project/default/auth/v1/`;
+    const siteUrl = Deno.env.get('SITE_URL') || supabaseUrl;
+    const adminLink = `${siteUrl}/admin/enquiries/${enquiry.id}`;
     const subject = `New RFQ: ${enquiry.product} — ${enquiry.full_name}`;
     const emailBody = buildEmailBody(enquiry, submissionDate, adminLink);
 
@@ -110,22 +119,15 @@ Deno.serve(async (req: Request) => {
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      await supabase
-        .from('enquiries')
-        .update({ email_status: 'failed' })
-        .eq('id', enquiryId);
+      await supabase.from('enquiries').update({ email_status: 'failed' }).eq('id', enquiryId);
 
-      return new Response(JSON.stringify({ status: 'failed', message: 'Email delivery failed', detail: errorText }), {
-        status: 200,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({ status: 'failed', message: 'Email delivery failed' }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
     }
 
-    await supabase
-      .from('enquiries')
-      .update({ email_status: 'sent' })
-      .eq('id', enquiryId);
+    await supabase.from('enquiries').update({ email_status: 'sent' }).eq('id', enquiryId);
 
     return new Response(JSON.stringify({ status: 'sent', message: 'Notification email sent' }), {
       status: 200,
@@ -141,20 +143,37 @@ Deno.serve(async (req: Request) => {
 });
 
 function buildEmailBody(enquiry: EnquiryRow, submissionDate: string, adminLink: string): string {
-  const lines = [
+  const na = 'N/A';
+  const lines: string[] = [
     'New Buyer Enquiry (RFQ) — Setu Trade',
     '========================================',
     '',
-    `Buyer Name:     ${enquiry.full_name}`,
-    `Company:        ${enquiry.company || 'N/A'}`,
-    `Country:        ${enquiry.country}`,
-    `Email:          ${enquiry.email}`,
+    '--- Buyer Information ---',
+    `Name:            ${enquiry.full_name}`,
+    `Company:         ${enquiry.company || na}`,
+    `Country:         ${enquiry.country}`,
+    `City:            ${enquiry.city || na}`,
+    `Email:           ${enquiry.email}`,
+    `Phone/WhatsApp:  ${enquiry.phone || na}`,
+    `Buyer Type:      ${enquiry.buyer_type || na}`,
     '',
-    `Product:        ${enquiry.product}`,
-    `Quantity:       ${enquiry.quantity} ${enquiry.unit}`,
-    `Destination:    ${enquiry.destination}`,
-    `Incoterm:       ${enquiry.incoterm || 'N/A'}`,
-    `Payment Terms:  ${enquiry.payment_terms || 'N/A'}`,
+    '--- Product Requirements ---',
+    `Product:         ${enquiry.product}`,
+    `Variety/Grade:   ${enquiry.variety_grade || na}`,
+    `Quantity:        ${enquiry.quantity} ${enquiry.unit}`,
+    `Packaging:       ${enquiry.packaging || na}`,
+    '',
+    '--- Delivery & Commercial Terms ---',
+    `Destination:     ${enquiry.destination}`,
+    `Delivery Date:   ${enquiry.delivery_date || na}`,
+    `Incoterm:        ${enquiry.incoterm || na}`,
+    `Payment Terms:   ${enquiry.payment_terms || na}`,
+    '',
+    '--- Specifications ---',
+    enquiry.specifications || na,
+    '',
+    '--- Additional Message ---',
+    enquiry.message || na,
     '',
     `Submission Date: ${submissionDate} (UTC)`,
     '',
