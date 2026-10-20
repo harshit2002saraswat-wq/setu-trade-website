@@ -3,18 +3,28 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const isConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+export const isSupabaseConfigured = Boolean(
+  supabaseUrl && supabaseAnonKey && supabaseUrl.startsWith('https://')
+);
 
-export const supabase: SupabaseClient = isConfigured
-  ? createClient(supabaseUrl, supabaseAnonKey, {
+let client: SupabaseClient;
+
+try {
+  if (isSupabaseConfigured) {
+    client = createClient(supabaseUrl!, supabaseAnonKey!, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
-        detectSessionInUrl: true,
+        detectSessionInUrl: false,
       },
-    })
-  : (createClient('https://placeholder.supabase.co', 'placeholder-anon-key', {
-      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
-    }) as SupabaseClient);
+    });
+  } else {
+    throw new Error('Supabase not configured');
+  }
+} catch {
+  client = createClient('https://placeholder.supabase.co', 'placeholder-key', {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  });
+}
 
-export { isConfigured as isSupabaseConfigured };
+export const supabase = client;
