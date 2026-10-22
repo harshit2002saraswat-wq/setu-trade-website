@@ -27,7 +27,7 @@ export function FeaturedProducts() {
         <div className="max-w-3xl">
           <p className="eyebrow">
             <span className="h-px w-8 bg-brand-500" />
-            Featured
+            Our Product Range
           </p>
           <h2 className="section-title mt-4">Featured Products</h2>
           <p className="mt-4 text-lg leading-relaxed text-charcoal-600">
