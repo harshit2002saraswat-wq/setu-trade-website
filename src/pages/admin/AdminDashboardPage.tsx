@@ -10,6 +10,7 @@ import {
   X,
   ArrowRight,
   TrendingUp,
+  FileText,
 } from 'lucide-react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { useAuth } from '@/context/AuthContext';
@@ -162,6 +163,18 @@ export function AdminDashboardPage() {
         <StatCard label="New" value={stats.newCount} icon={Clock} color="blue" />
         <StatCard label="In Progress" value={stats.inProgressCount} icon={TrendingUp} color="amber" />
         <StatCard label="Responded" value={stats.respondedCount} icon={CheckCircle2} color="green" />
+      </div>
+
+      {/* Blog Management quick link */}
+      <div className="mt-6 flex items-center justify-between rounded-xl border border-charcoal-200 bg-white p-5">
+        <div>
+          <h2 className="text-base font-semibold text-charcoal-900">Blog Management</h2>
+          <p className="mt-1 text-sm text-charcoal-500">Manage blog posts, review AI-generated drafts, publish and archive articles.</p>
+        </div>
+        <Link to="/admin/blog" className="btn-primary inline-flex items-center gap-1.5 whitespace-nowrap">
+          <FileText className="h-4 w-4" />
+          Manage Blog
+        </Link>
       </div>
 
       {/* Filters + search */}

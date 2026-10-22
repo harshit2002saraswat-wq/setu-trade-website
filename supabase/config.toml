@@ -1,2 +1,11 @@
 [functions.notify-enquiry]
 verify_jwt = false
+
+[functions.generate-blog-draft]
+verify_jwt = true
+
+[functions.weekly-blog-cron]
+verify_jwt = false
+
+[functions.sitemap]
+verify_jwt = false

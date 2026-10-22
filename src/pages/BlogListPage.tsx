@@ -1,16 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, X, SlidersHorizontal, ArrowRight, Clock, Calendar } from 'lucide-react';
+import { Search, X, SlidersHorizontal, ArrowRight, Clock, Calendar, Loader2, AlertCircle } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { BlogCard } from '@/components/BlogCard';
-import {
-  BLOG_ARTICLES,
-  BLOG_CATEGORIES,
-  getFeaturedArticle,
-  formatDate,
-} from '@/data/blog';
-import type { BlogCategorySlug } from '@/types/blog';
+import { BLOG_CATEGORIES, formatDate } from '@/data/blog';
+import { fetchPublishedPosts } from '@/lib/blogApi';
+import type { BlogPost, BlogCategorySlug } from '@/types/blog';
 import { useSeo } from '@/hooks/useSeo';
 
 type FilterSlug = 'all' | BlogCategorySlug;
@@ -19,6 +15,8 @@ const FILTERS: { slug: FilterSlug; label: string }[] = [
   { slug: 'all', label: 'All Articles' },
   ...BLOG_CATEGORIES.map((c) => ({ slug: c.slug as FilterSlug, label: c.name })),
 ];
+
+const FALLBACK_IMAGE = 'https://images.pexels.com/photos/16244327/pexels-photo-16244327.jpeg?auto=compress&cs=tinysrgb&h=650&w=940';
 
 export function BlogListPage() {
   useSeo({
@@ -31,21 +29,46 @@ export function BlogListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeFilter = (searchParams.get('category') as FilterSlug | null) ?? 'all';
   const [query, setQuery] = useState('');
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loadingState, setLoadingState] = useState<'loading' | 'success' | 'error'>('loading');
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const featured = useMemo(() => getFeaturedArticle(), []);
+  useEffect(() => {
+    let cancelled = false;
+    setLoadingState('loading');
+    fetchPublishedPosts()
+      .then((data) => {
+        if (!cancelled) {
+          setPosts(data);
+          setLoadingState('success');
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setErrorMsg('Could not load articles. Please try again.');
+          setLoadingState('error');
+        }
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  const featured = useMemo(
+    () => posts.find((p) => p.is_featured) ?? posts[0] ?? null,
+    [posts],
+  );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return BLOG_ARTICLES.filter((article) => {
-      const matchesCategory = activeFilter === 'all' || article.categorySlug === activeFilter;
+    return posts.filter((post) => {
+      const matchesCategory = activeFilter === 'all' || post.category_slug === activeFilter;
       const matchesQuery =
         q === '' ||
-        article.title.toLowerCase().includes(q) ||
-        article.excerpt.toLowerCase().includes(q) ||
-        article.category.toLowerCase().includes(q);
+        post.title.toLowerCase().includes(q) ||
+        post.excerpt.toLowerCase().includes(q) ||
+        post.category.toLowerCase().includes(q);
       return matchesCategory && matchesQuery;
     });
-  }, [activeFilter, query]);
+  }, [posts, activeFilter, query]);
 
   const showFeatured = activeFilter === 'all' && query === '' && featured;
 
@@ -109,8 +132,8 @@ export function BlogListPage() {
               >
                 <div className="relative h-56 overflow-hidden bg-charcoal-100 lg:h-full">
                   <img
-                    src={featured.image}
-                    alt={featured.imageAlt}
+                    src={featured.featured_image || FALLBACK_IMAGE}
+                    alt={featured.featured_image_alt || featured.title}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -124,11 +147,11 @@ export function BlogListPage() {
                   <div className="flex items-center gap-4 text-xs text-charcoal-500">
                     <span className="inline-flex items-center gap-1.5">
                       <Calendar className="h-3.5 w-3.5" />
-                      {formatDate(featured.publishedDate)}
+                      {formatDate(featured.published_at || featured.created_at)}
                     </span>
                     <span className="inline-flex items-center gap-1.5">
                       <Clock className="h-3.5 w-3.5" />
-                      {featured.readingTime} min read
+                      {featured.reading_time} min read
                     </span>
                   </div>
                   <h2 className="mt-4 text-2xl font-bold leading-snug text-charcoal-900 sm:text-3xl">
@@ -206,53 +229,62 @@ export function BlogListPage() {
         {/* Blog grid */}
         <section className="bg-charcoal-50 py-12 sm:py-16">
           <div className="container-page">
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm text-charcoal-500">
-                {articleCount} {articleCount === 1 ? 'article' : 'articles'}
-                {activeFilter !== 'all' && (
-                  <span className="text-charcoal-400">
-                    {' '}in {FILTERS.find((f) => f.slug === activeFilter)?.label}
-                  </span>
-                )}
-              </p>
-              {query && (
-                <button
-                  type="button"
-                  onClick={clearSearch}
-                  className="text-sm font-medium text-brand-700 hover:text-brand-900"
-                >
-                  Clear search
-                </button>
-              )}
-            </div>
+            {loadingState === 'loading' && (
+              <div className="flex items-center justify-center py-20">
+                <Loader2 className="h-6 w-6 animate-spin text-brand-600" />
+                <span className="ml-3 text-sm text-charcoal-500">Loading articles...</span>
+              </div>
+            )}
 
-            {filtered.length > 0 ? (
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {filtered.map((article, i) => (
-                  <BlogCard
-                    key={article.slug}
-                    article={article}
-                    index={i}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-charcoal-100 bg-white py-16 text-center">
-                <Search className="mx-auto h-8 w-8 text-charcoal-300" strokeWidth={1.8} />
-                <h2 className="mt-4 text-lg font-semibold text-charcoal-900">No articles found</h2>
-                <p className="mt-2 text-sm text-charcoal-600">
-                  {query
-                    ? `No articles match "${query}". Try a different search term or category.`
-                    : 'No articles in this category. Try a different category.'}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => { setQuery(''); setFilter('all'); }}
-                  className="btn-secondary mt-6"
-                >
-                  Reset filters
+            {loadingState === 'error' && (
+              <div className="flex flex-col items-center justify-center rounded-xl border border-red-200 bg-red-50 py-16 text-center">
+                <AlertCircle className="h-8 w-8 text-red-500" />
+                <p className="mt-3 text-sm font-medium text-red-800">{errorMsg}</p>
+                <button type="button" onClick={() => window.location.reload()} className="btn-secondary mt-5">
+                  Try Again
                 </button>
               </div>
+            )}
+
+            {loadingState === 'success' && (
+              <>
+                <div className="mb-6 flex items-center justify-between">
+                  <p className="text-sm text-charcoal-500">
+                    {articleCount} {articleCount === 1 ? 'article' : 'articles'}
+                    {activeFilter !== 'all' && (
+                      <span className="text-charcoal-400">
+                        {' '}in {FILTERS.find((f) => f.slug === activeFilter)?.label}
+                      </span>
+                    )}
+                  </p>
+                  {query && (
+                    <button type="button" onClick={clearSearch} className="text-sm font-medium text-brand-700 hover:text-brand-900">
+                      Clear search
+                    </button>
+                  )}
+                </div>
+
+                {filtered.length > 0 ? (
+                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {filtered.map((article, i) => (
+                      <BlogCard key={article.id} article={article} index={i} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-charcoal-100 bg-white py-16 text-center">
+                    <Search className="mx-auto h-8 w-8 text-charcoal-300" strokeWidth={1.8} />
+                    <h2 className="mt-4 text-lg font-semibold text-charcoal-900">No articles found</h2>
+                    <p className="mt-2 text-sm text-charcoal-600">
+                      {query
+                        ? `No articles match "${query}". Try a different search term or category.`
+                        : 'No articles in this category. Try a different category.'}
+                    </p>
+                    <button type="button" onClick={() => { setQuery(''); setFilter('all'); }} className="btn-secondary mt-6">
+                      Reset filters
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </section>

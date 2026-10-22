@@ -1,0 +1,21 @@
+{
+  "projectId": "72217989",
+  "functions": {
+    "generate-blog-draft": {
+      "hasChanged": false,
+      "hash": "f3d45e071401c0b92a3159e1a44579cfdeca361c8889076d38d1bc808056381f"
+    },
+    "notify-enquiry": {
+      "hasChanged": false,
+      "hash": "a35aaa49b75a20eb355d5884717a7c1b84618b14e2debdd5aba9744b169cd589"
+    },
+    "weekly-blog-cron": {
+      "hasChanged": false,
+      "hash": "65d7f8aeee0bf0fa8c674c04b673a56f37eabca9dc37278eb501f0f676b9e4cd"
+    },
+    "sitemap": {
+      "hasChanged": false,
+      "hash": "3f79bd9bd6b638ddb545a39f47acf8270beccee184f4f7a05fc64d8b920f4b65"
+    }
+  }
+}

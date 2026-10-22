@@ -13,6 +13,8 @@ import { BlogDetailPage } from '@/pages/BlogDetailPage';
 import { AdminLoginPage } from '@/pages/admin/AdminLoginPage';
 import { AdminDashboardPage } from '@/pages/admin/AdminDashboardPage';
 import { AdminEnquiryDetailPage } from '@/pages/admin/AdminEnquiryDetailPage';
+import { AdminBlogPage } from '@/pages/admin/AdminBlogPage';
+import { AdminBlogEditPage } from '@/pages/admin/AdminBlogEditPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
               <Route path="/admin/login" element={<AdminLoginPage />} />
               <Route path="/admin" element={<AdminDashboardPage />} />
               <Route path="/admin/enquiries/:id" element={<AdminEnquiryDetailPage />} />
+              <Route path="/admin/blog" element={<AdminBlogPage />} />
+              <Route path="/admin/blog/:id" element={<AdminBlogEditPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </div>

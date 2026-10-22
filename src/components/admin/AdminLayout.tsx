@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, Inbox, ArrowLeft } from 'lucide-react';
+import { LogOut, LayoutDashboard, Inbox, ArrowLeft, FileText } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -15,6 +15,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const navItems = [
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { label: 'Enquiries', href: '/admin?view=all', icon: Inbox },
+    { label: 'Blog', href: '/admin/blog', icon: FileText },
   ];
 
   return (
@@ -62,7 +63,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               const isActive =
                 item.href === '/admin'
                   ? location.pathname === '/admin'
-                  : location.pathname === item.href;
+                  : item.href === '/admin/blog'
+                    ? location.pathname.startsWith('/admin/blog')
+                    : location.pathname === item.href;
               return (
                 <Link
                   key={item.href}

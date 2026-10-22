@@ -5,5 +5,5 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-# Sitemap
-Sitemap: https://setutrade.com/sitemap.xml
+# Sitemap (dynamic edge function — includes published posts, excludes drafts)
+Sitemap: https://setutrade.com/functions/v1/sitemap
