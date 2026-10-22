@@ -1,22 +1,23 @@
 import { Globe2, Layers, PackageCheck, Ship } from 'lucide-react';
 import { WHY_SETU_TRADE } from '@/data/site';
+import { useTranslation } from '@/i18n/context';
 import type { ComplianceArea } from '@/types';
 
 const ICONS = [Globe2, Layers, PackageCheck, Ship];
 
 export function WhySetuTrade() {
+  const { t, tc } = useTranslation();
   return (
     <section id="why-setu-trade" className="scroll-mt-24 bg-white py-20 sm:py-28">
       <div className="container-page">
         <div className="max-w-3xl">
           <p className="eyebrow">
             <span className="h-px w-8 bg-brand-500" />
-            Why Setu Trade
+            {t('home.why.eyebrow')}
           </p>
-          <h2 className="section-title mt-4">Why Work With Setu Trade?</h2>
+          <h2 className="section-title mt-4">{t('home.why.title')}</h2>
           <p className="mt-4 text-lg leading-relaxed text-charcoal-600">
-            A practical approach to sourcing Indian agricultural products for
-            international buyers.
+            {t('home.why.subtitle')}
           </p>
         </div>
 
@@ -33,10 +34,10 @@ export function WhySetuTrade() {
                   <Icon className="h-6 w-6" strokeWidth={1.9} />
                 </span>
                 <h3 className="mt-5 text-base font-semibold text-charcoal-900">
-                  {feature.title}
+                  {tc(feature.title)}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-charcoal-600">
-                  {feature.description}
+                  {tc(feature.description)}
                 </p>
               </div>
             );

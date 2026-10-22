@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link } from '@/i18n/Link';
+import { useTranslation } from '@/i18n/context';
 import { ArrowRight, FileText, Handshake } from 'lucide-react';
 
 export function CallToAction() {
@@ -13,6 +14,7 @@ export function CallToAction() {
 }
 
 function BuyerCTA() {
+  const { t } = useTranslation();
   return (
     <div
       id="request-quote"
@@ -22,22 +24,21 @@ function BuyerCTA() {
         <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-700 text-white">
           <FileText className="h-6 w-6" strokeWidth={1.9} />
         </span>
-        <p className="eyebrow mt-6">For Buyers</p>
+        <p className="eyebrow mt-6">{t('home.cta.buyerEyebrow')}</p>
         <h3 className="mt-2 text-2xl font-bold text-charcoal-900 sm:text-3xl">
-          Looking for Agricultural Products from India?
+          {t('home.cta.buyerTitle')}
         </h3>
         <p className="mt-3 text-base leading-relaxed text-charcoal-600">
-          Tell us what product you need, the required quantity, specification and
-          destination. Our team can review your requirement.
+          {t('home.cta.buyerText')}
         </p>
       </div>
-      <div className="mt-7 flex w-full flex-col gap-3 sm:flex-row lg:mt-0 lg:w-auto lg:flex-col lg:items-end">
+      <div className="mt-7 flex w-full flex-col gap-3 sm:flex-row lg:mt-0 lg:w-auto lg:flex-col lg:items-end rtl:lg:items-start">
         <Link to="/request-quote" className="btn-primary text-base">
-          Request a Quote
-          <ArrowRight className="h-4 w-4" />
+          {t('common.requestQuote')}
+          <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
         </Link>
         <Link to="/contact" className="btn-secondary text-base">
-          Contact Us
+          {t('common.contactUs')}
         </Link>
       </div>
     </div>
@@ -45,6 +46,7 @@ function BuyerCTA() {
 }
 
 function SupplierCTA() {
+  const { t } = useTranslation();
   return (
     <div
       id="become-supplier"
@@ -54,19 +56,18 @@ function SupplierCTA() {
         <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-earth-600 text-white">
           <Handshake className="h-6 w-6" strokeWidth={1.9} />
         </span>
-        <p className="eyebrow mt-6">For Suppliers</p>
+        <p className="eyebrow mt-6">{t('home.cta.supplierEyebrow')}</p>
         <h3 className="mt-2 text-2xl font-bold text-charcoal-900 sm:text-3xl">
-          Are You a Farmer, FPO, Trader or Supplier?
+          {t('home.cta.supplierTitle')}
         </h3>
         <p className="mt-3 text-base leading-relaxed text-charcoal-600">
-          Share your available agricultural products and supply details with Setu Trade
-          for potential sourcing opportunities.
+          {t('home.cta.supplierText')}
         </p>
       </div>
       <div className="mt-7 lg:mt-0">
         <Link to="/suppliers" className="btn-primary text-base">
-          Become a Supplier
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          {t('common.becomeSupplier')}
+          <ArrowRight className="h-4 w-4 transition-transform rtl:-scale-x-100 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
         </Link>
       </div>
     </div>

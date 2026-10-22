@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link } from '@/i18n/Link';
+import { useTranslation } from '@/i18n/context';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { productRoute } from '@/data/site';
 import type { ProductItem } from '@/types';
@@ -10,6 +11,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ item, categoryName, index }: ProductCardProps) {
+  const { t } = useTranslation();
   return (
     <article
       className="card group flex flex-col overflow-hidden hover:shadow-card-hover animate-fade-up"
@@ -22,7 +24,7 @@ export function ProductCard({ item, categoryName, index }: ProductCardProps) {
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
         />
-        <div className="absolute left-3 top-3">
+        <div className="absolute start-3 top-3">
           <span className="inline-flex rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-brand-700 backdrop-blur-sm">
             {categoryName}
           </span>
@@ -40,16 +42,16 @@ export function ProductCard({ item, categoryName, index }: ProductCardProps) {
             to={productRoute(item.routeSlug)}
             className="btn-secondary flex-1 px-4 py-2.5 text-sm"
           >
-            View Product
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            {t('products.viewProduct')}
+            <ArrowUpRight className="h-4 w-4 transition-transform rtl:-scale-x-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5" />
           </Link>
           <Link
             to={`/request-quote?product=${item.routeSlug}`}
             className="btn-primary px-4 py-2.5 text-sm"
-            aria-label={`Request a quote for ${item.name}`}
+            aria-label={t('products.requestQuoteFor', { name: item.name })}
           >
-            Request a Quote
-            <ArrowRight className="h-4 w-4" />
+            {t('common.requestQuote')}
+            <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
           </Link>
         </div>
       </div>

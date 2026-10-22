@@ -11,6 +11,7 @@ import { TargetMarkets } from '@/components/sections/TargetMarkets';
 import { ExportProcess } from '@/components/sections/ExportProcess';
 import { About } from '@/components/sections/About';
 import { CallToAction } from '@/components/sections/CallToAction';
+import { useTranslation } from '@/i18n/context';
 
 function useScrollToHash() {
   const { hash } = useLocation();
@@ -30,10 +31,10 @@ function useScrollToHash() {
 
 export function HomePage() {
   useScrollToHash();
+  const { t } = useTranslation();
   useSeo({
-    title: 'Setu Trade — Indian Agro Products & Global Trade',
-    description:
-      'Setu Trade connects international buyers with Indian agricultural products including fresh vegetables, agro products, millets, spices, dry fruits, nuts and organic produce.',
+    title: t('home.seo.title'),
+    description: t('home.seo.description'),
     canonicalPath: '/',
     jsonLd: [
       {
@@ -41,8 +42,7 @@ export function HomePage() {
         '@type': 'Organization',
         name: 'Setu Trade',
         url: 'https://setutrade.com',
-        description:
-          'India-based exporter connecting international buyers with Indian agricultural products including fresh vegetables, agro products, millets, spices, dry fruits, nuts and organic produce.',
+        description: t('footer.about'),
         areaServed: 'Global',
       },
       {

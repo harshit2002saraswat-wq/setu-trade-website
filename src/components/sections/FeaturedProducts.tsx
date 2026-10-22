@@ -1,13 +1,14 @@
-import { PRODUCT_CATEGORIES } from '@/data/site';
 import { ProductCard } from '@/components/ProductCard';
-import type { ProductItem } from '@/types';
+import { useTranslation } from '@/i18n/context';
+import { useLocalizedCategories } from '@/i18n/catalog';
+import type { ProductCategory, ProductItem } from '@/types';
 
 const FEATURED_SLUGS = ['potato', 'wheat', 'bajra', 'jowar', 'mustard', 'paddy-rice', 'turmeric', 'cashew-nuts', 'raisins', 'green-chilli', 'chickpeas', 'cardamom'];
 
-function findFeatured(): { item: ProductItem; categoryName: string }[] {
+function findFeatured(categories: ProductCategory[]): { item: ProductItem; categoryName: string }[] {
   const found: { item: ProductItem; categoryName: string }[] = [];
   for (const slug of FEATURED_SLUGS) {
-    for (const cat of PRODUCT_CATEGORIES) {
+    for (const cat of categories) {
       const item = cat.items.find((i) => i.routeSlug === slug);
       if (item) {
         found.push({ item, categoryName: cat.name });
@@ -19,7 +20,8 @@ function findFeatured(): { item: ProductItem; categoryName: string }[] {
 }
 
 export function FeaturedProducts() {
-  const featured = findFeatured();
+  const { t } = useTranslation();
+  const featured = findFeatured(useLocalizedCategories());
 
   return (
     <section id="featured-products" className="scroll-mt-24 bg-charcoal-50 py-20 sm:py-28">
@@ -27,12 +29,11 @@ export function FeaturedProducts() {
         <div className="max-w-3xl">
           <p className="eyebrow">
             <span className="h-px w-8 bg-brand-500" />
-            Our Product Range
+            {t('home.featured.eyebrow')}
           </p>
-          <h2 className="section-title mt-4">Featured Products</h2>
+          <h2 className="section-title mt-4">{t('home.featured.title')}</h2>
           <p className="mt-4 text-lg leading-relaxed text-charcoal-600">
-            A selection of agricultural products from our catalogue, available for
-            international buyer enquiries.
+            {t('home.featured.subtitle')}
           </p>
         </div>
 

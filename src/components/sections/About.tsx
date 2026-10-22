@@ -1,10 +1,12 @@
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/i18n/Link';
+import { useTranslation } from '@/i18n/context';
 
 const ABOUT_IMAGE =
   'https://images.pexels.com/photos/20238486/pexels-photo-20238486.jpeg?auto=compress&cs=tinysrgb&h=650&w=940';
 
 export function About() {
+  const { t } = useTranslation();
   return (
     <section id="about" className="scroll-mt-24 bg-white py-20 sm:py-28">
       <div className="container-page">
@@ -13,7 +15,7 @@ export function About() {
             <div className="relative overflow-hidden rounded-3xl">
               <img
                 src={ABOUT_IMAGE}
-                alt="Indian farmer in an agricultural field"
+                alt={t('home.about.imageAlt')}
                 className="h-full w-full object-cover"
                 loading="lazy"
               />
@@ -24,31 +26,25 @@ export function About() {
           <div className="lg:col-span-6">
             <p className="eyebrow">
               <span className="h-px w-8 bg-brand-500" />
-              About Setu Trade
+              {t('home.about.eyebrow')}
             </p>
             <h2 className="section-title mt-4">
-              A bridge between Indian agriculture and international buyers
+              {t('home.about.title')}
             </h2>
             <p className="mt-5 text-base leading-relaxed text-charcoal-600">
-              Setu Trade is an India-based agricultural trading company. The word
-              <span className="font-semibold text-charcoal-800"> Setu</span> means
-              <span className="font-semibold text-charcoal-800"> bridge</span> — and that
-              is what we aim to do: connect international buyers with Indian agricultural
-              products including fresh vegetables, agro products, millets and organic produce.
+              {t('home.about.p1')}
             </p>
             <p className="mt-4 text-base leading-relaxed text-charcoal-600">
-              We work with buyer-specified requirements across product, quantity, packaging
-              and destination, coordinating sourcing and export documentation according to
-              each transaction.
+              {t('home.about.p2')}
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link to="/about" className="btn-primary">
-                Learn More
-                <ArrowRight className="h-4 w-4" />
+                {t('common.learnMore')}
+                <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
               </Link>
               <Link to="/contact" className="btn-secondary">
-                Contact Setu Trade
+                {t('home.about.contact')}
               </Link>
             </div>
           </div>

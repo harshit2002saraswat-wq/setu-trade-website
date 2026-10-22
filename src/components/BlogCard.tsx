@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
 import { ArrowUpRight, Clock, Calendar } from 'lucide-react';
 import type { BlogArticle, BlogPost } from '@/types/blog';
-import { formatDate } from '@/data/blog';
+import { Link } from '@/i18n/Link';
+import { useTranslation } from '@/i18n/context';
 
 interface BlogCardProps {
   article: BlogArticle | BlogPost;
@@ -54,6 +54,7 @@ function getReadingTime(a: BlogArticle | BlogPost): number {
 }
 
 export function BlogCard({ article, index }: BlogCardProps) {
+  const { t, tb, formatDate, formatNumber } = useTranslation();
   return (
     <article
       className="card group flex flex-col overflow-hidden hover:shadow-card-hover animate-fade-up"
@@ -63,13 +64,13 @@ export function BlogCard({ article, index }: BlogCardProps) {
         <div className="relative h-44 overflow-hidden bg-charcoal-100">
           <img
             src={getImage(article)}
-            alt={getImageAlt(article)}
+            alt={tb(getImageAlt(article))}
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
           />
-          <div className="absolute left-3 top-3">
+          <div className="absolute start-3 top-3">
             <span className="inline-flex rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-brand-700 backdrop-blur-sm">
-              {getCategory(article)}
+              {tb(getCategory(article))}
             </span>
           </div>
         </div>
@@ -78,11 +79,11 @@ export function BlogCard({ article, index }: BlogCardProps) {
       <div className="flex flex-1 flex-col p-5">
         <h3 className="text-lg font-semibold leading-snug text-charcoal-900">
           <Link to={`/blog/${getSlug(article)}`} className="transition-colors hover:text-brand-700">
-            {getTitle(article)}
+            {tb(getTitle(article))}
           </Link>
         </h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-600 line-clamp-3">
-          {getExcerpt(article)}
+          {tb(getExcerpt(article))}
         </p>
 
         <div className="mt-5 flex items-center gap-4 text-xs text-charcoal-500">
@@ -92,7 +93,7 @@ export function BlogCard({ article, index }: BlogCardProps) {
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Clock className="h-3.5 w-3.5" />
-            {getReadingTime(article)} min read
+            {t('blog.minRead', { minutes: formatNumber(getReadingTime(article)) })}
           </span>
         </div>
 
@@ -100,8 +101,8 @@ export function BlogCard({ article, index }: BlogCardProps) {
           to={`/blog/${getSlug(article)}`}
           className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:text-brand-900"
         >
-          Read More
-          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          {t('blog.readMore')}
+          <ArrowUpRight className="h-4 w-4 transition-transform rtl:-scale-x-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5" />
         </Link>
       </div>
     </article>
